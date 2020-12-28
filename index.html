@@ -514,7 +514,7 @@
 									<input type="number" min="0" style="width:30px" v-model="coupon.use_volumn">
 									张，可抵扣{{coupon_deduct | RMB_symbol}}
 								</p>
-								<p>满{{coupon.limit}}元可用</p>
+								<p>满{{coupon.limit | RMB_symbol}}可用</p>
 
 							</div>
 							<div class="message boxs fl">
@@ -671,7 +671,7 @@
 								<input type="checkbox" v-model="coupon.use_switch" />
 							</label>
 						</div>
-						<i>注：满{{coupon.limit}}元可用</i>
+						<i>注：满{{coupon.limit | RMB_symbol}}可用</i>
 					</div>
 					<div class="invoice boxs">
 						<div class="clearfix">
@@ -837,7 +837,7 @@
 				message: '', //给商家留言
 				goods: [
 					//商品列表
-					/* {
+					{
 						pic:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1608285375145&di=f2ea0757f094aea4b8e71059d4aa9d84&imgtype=0&src=http%3A%2F%2Fattach.bbs.miui.com%2Fforum%2F201303%2F16%2F075154gfxiljfvfidzfcvt.jpg',
 						des:'豪华企业网站标准版豪华企业网站标准版',
 						price:'465',
@@ -854,7 +854,7 @@
 						des:'豪华企业网站标准版豪华企业网站标准版',
 						price:'1111',
 						volumn:'1'
-					} */
+					}
 				],
 				invoice: {
 					rate: 3,
@@ -987,7 +987,8 @@
 								price += bills[key].val;
 							}
 						}
-					}
+					};
+					if(price<0){price=0};
 					return price;
 				},
 				handleNeedstate(val) {
@@ -1026,6 +1027,7 @@
 					this.qrcode_ctn.hishow=false;
 				},
 				handlePayment() {
+					// if(this.needPayment()===0){return};
 					if(this.qrcode_ctn.hishow){
 						this.qrcode_ctn={
 							hishow:false,
@@ -1125,7 +1127,8 @@
 									unit: item.unit
 								})
 							})
-							this.goods = goods;
+							// 生产环境,goods注释行打开
+							// this.goods = goods;
 							this.gold.available = 1000;
 							this.gold.transfer = 10;
 
