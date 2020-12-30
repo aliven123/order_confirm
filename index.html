@@ -761,7 +761,6 @@
 		var queryToObj = function() {
 			var res = {};
 			var search = location.search.substr(1);
-			console.log(search);
 			search.split('&').forEach(paramStr => {
 				var arr = paramStr.split('=');
 				var key = arr[0];
@@ -969,7 +968,7 @@
 			filters: {
 				RMB_symbol(value) {
 					if (value != undefined && value !== '') {
-						return `¥ ${value}`
+						return '¥ '+value;
 					} else {
 						return value
 					}
@@ -1037,7 +1036,7 @@
 					}
 					var def = this.payment.def;
 					var api = this.payment[def].api;
-					var url = `${this.host}/order/daifa_pay/`;
+					var url = this.host+'/order/daifa_pay/';
 					var obj=queryToObj();
 					var orderids=obj.orderids;
 					var username=obj.username;
@@ -1084,8 +1083,8 @@
 					let data = {
 							out_trade_no
 						};
-					const src = `/order/daifa_callback/${pay_by}/`;
-					ajaxfn(`${this.host}${src}`, 'POST', 'json', data,(res) => {
+					var src = '/order/daifa_callback/'+pay_by+'/';
+					ajaxfn(this.host+src, 'POST', 'json', data,(res) => {
 						if(res.result==='success' || this.qrcode_ctn.hishow!==true){
 							this.qrcode_ctn = {
 								data:{},
@@ -1103,7 +1102,7 @@
 						orderids,
 						username
 					} = queryToObj();
-					var url = `${this.host}/payment/get_order_infos/`;
+					var url = this.host+'/payment/get_order_infos/';
 					var data = {
 						orders: orderids,
 						username
@@ -1116,7 +1115,7 @@
 							console.log(data);
 							console.log(this.gold);
 							// this.gold.available=data.goldcoin;
-							const goods = [];
+							var goods = [];
 							
 							data.goods.forEach((item) => {
 								goods.push({
